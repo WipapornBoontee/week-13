@@ -14,5 +14,4 @@ class Blog extends Model
         'content',
         'status',
     ];
-    
 }

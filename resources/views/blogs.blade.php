@@ -19,17 +19,17 @@
         <div class="row mb-4 align-items-center">
             <!-- Search Lookup Bar -->
             <div class="col-md-8 mb-2 mb-md-0">
-                <form action="{{ route('blogs') }}" method="GET" class="input-group shadow-sm">
+                <form action="/author/blog" method="GET" class="input-group shadow-sm">
                     <input type="text" name="search" class="form-control" placeholder="ค้นหาชื่อบทความ หรือเนื้อหา..." value="{{ $search ?? '' }}">
                     <button class="btn btn-primary" type="submit">🔍 ค้นหา</button>
                     @if(!empty($search))
-                        <a href="{{ route('blogs') }}" class="btn btn-outline-secondary">ล้างตัวกรอง</a>
+                        <a href="/author/blog" class="btn btn-outline-secondary">ล้างตัวกรอง</a>
                     @endif
                 </form>
             </div>
             <!-- Add Button -->
             <div class="col-md-4 text-md-end">
-                <a href="{{ route('blog.create') }}" class="btn btn-success shadow-sm fw-semibold">
+                <a href="/author/create" class="btn btn-success shadow-sm fw-semibold">
                     ➕ เขียนบทความใหม่
                 </a>
             </div>
@@ -41,9 +41,9 @@
                     <thead class="table-dark">
                         <tr>
                             <th scope="col" style="width: 25%;">ชื่อบทความ</th>
-                            <th scope="col" style="width: 40%;">เนื้อหา</th>
+                            <th scope="col" style="width: 35%;">เนื้อหา</th>
                             <th scope="col" style="width: 15%;">สถานะการเผยแพร่</th>
-                            <th scope="col" style="width: 20%;">จัดการข้อมูล</th>
+                            <th scope="col" style="width: 25%;">จัดการข้อมูล</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -53,28 +53,24 @@
                                 <td class="text-start px-3">{{ Str::limit($item->content, 100) }}</td>
                                 <td>
                                     @if($item->status)
-                                        <span class="badge bg-success px-3 py-2">เผยแพร่</span>
+                                        <a href="/author/change/{{ $item->id }}" class="badge bg-success text-decoration-none px-3 py-2" title="คลิกเพื่อสลับสถานะ">เผยแพร่</a>
                                     @else
-                                        <span class="badge bg-danger px-3 py-2">ไม่เผยแพร่</span>
+                                        <a href="/author/change/{{ $item->id }}" class="badge bg-danger text-decoration-none px-3 py-2" title="คลิกเพื่อสลับสถานะ">ฉบับร่าง</a>
                                     @endif
                                 </td>
                                 <td>
                                     <div class="d-flex justify-content-center gap-2">
-                                        <a href="{{ route('blog.view', $item->id) }}" class="btn btn-info btn-sm fw-bold">
+                                        <a href="/author/view/{{ $item->id }}" class="btn btn-info btn-sm fw-bold">
                                             👁️ 
                                         </a>
                                         <!-- Edit button -->
-                                        <a href="{{ route('blog.edit', $item->id) }}" class="btn btn-warning btn-sm fw-bold">
+                                        <a href="/author/edit/{{ $item->id }}" class="btn btn-warning btn-sm fw-bold">
                                             ✏️ 
                                         </a>
                                         <!-- Delete button -->
-                                        <form action="{{ route('blog.destroy', $item->id) }}" method="POST" onsubmit="return confirm('คุณต้องการลบบทความนี้จริงหรือไม่?');">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="submit" class="btn btn-danger btn-sm fw-bold">
-                                                🗑️ 
-                                            </button>
-                                        </form>
+                                        <a href="/author/delete/{{ $item->id }}" onclick="return confirm('คุณต้องการลบบทความนี้จริงหรือไม่?');" class="btn btn-danger btn-sm fw-bold">
+                                            🗑️ 
+                                        </a>
                                     </div>
                                 </td>
                             </tr>
@@ -91,7 +87,7 @@
                 <h3 class="text-muted mb-3">ไม่พบข้อมูลบทความ</h3>
                 @if(!empty($search))
                     <p class="text-secondary">ไม่พบผลลัพธ์ที่ตรงกับคำว่า "{{ $search }}"</p>
-                    <a href="{{ route('blogs') }}" class="btn btn-secondary mt-2">กลับไปหน้าทั้งหมด</a>
+                    <a href="/author/blog" class="btn btn-secondary mt-2">กลับไปหน้าทั้งหมด</a>
                 @endif
             </div>
         @endif

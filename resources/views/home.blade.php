@@ -15,6 +15,9 @@
                     @endif
 
                     {{ __('You are logged in!') }}
+                    <br>
+                    <a href="/author/create" class="btn btn-primary my-2">เขียนบทความ</a>
+                    <a href="/author/blog" class="btn btn-primary my-2">บทความทั้งหมด</a>
                 </div>
             </div>
         </div>

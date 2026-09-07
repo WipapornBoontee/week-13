@@ -8,25 +8,25 @@
 <div class="container mt-3" style="max-width: 700px;">
     <div class="d-flex justify-content-between align-items-center mb-4">
         <h2 class="fw-bold text-primary">เขียนบทความใหม่</h2>
-        <a href="{{ route('blogs') }}" class="btn btn-outline-secondary btn-sm fw-semibold">
-            ⬅️ กลับหน้าหลัก
+        <a href="/author/blog" class="btn btn-outline-secondary btn-sm fw-semibold">
+            ⬅️ กลับหน้ารวมบทความ
         </a>
     </div>
 
     <div class="card shadow-sm border-0 p-4">
-        <form action="{{ route('blog.store') }}" method="POST">
+        <form action="/author/insert" method="POST">
             @csrf
 
             <div class="mb-3">
-                <label for="title" class="form-label fw-semibold">หัวข้อบทความ (Title)</label>
-                <input type="text" class="form-control @error('title') is-invalid @enderror" id="title" name="title" value="{{ old('title') }}" placeholder="กรอกหัวข้อบทความ">
+                <label for="title" class="form-label fw-semibold">ชื่อบทความ</label>
+                <input type="text" class="form-control @error('title') is-invalid @enderror" id="title" name="title" value="{{ old('title') }}" placeholder="กรอกชื่อบทความ">
                 @error('title')
                     <div class="invalid-feedback">{{ $message }}</div>
                 @enderror
             </div>
 
             <div class="mb-3">
-                <label for="content" class="form-label fw-semibold">เนื้อหาบทความ (Content)</label>
+                <label for="content" class="form-label fw-semibold">เนื้อหา</label>
                 <textarea class="form-control @error('content') is-invalid @enderror" id="content" name="content" rows="6" placeholder="กรอกเนื้อหาบทความ">{{ old('content') }}</textarea>
                 @error('content')
                     <div class="invalid-feedback">{{ $message }}</div>
@@ -47,8 +47,8 @@
             <hr class="my-4">
 
             <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-                <a href="{{ route('index') }}" class="btn btn-light px-4 fw-bold me-md-2">ยกเลิก</a>
-                <button type="submit" class="btn btn-primary px-4 fw-bold">💾 บันทึกข้อมูล</button>
+                <a href="/author/blog" class="btn btn-success my-3">บทความทั้งหมด</a>
+                <button type="submit" class="btn btn-primary my-3 fw-bold">💾 บันทึก</button>
             </div>
         </form>
     </div>

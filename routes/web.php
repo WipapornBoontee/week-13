@@ -2,34 +2,15 @@
 
 use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
-
 use App\Http\Controllers\AdminController;
 
 Route::get('/', function () {
     return view('home');
 })->name('home');
 
-Route::get('/login', function () {
-    return view('login');
-})->name('login');
-
-Route::post('/login-process', function (Request $request) {
-    $username = $request->input('username');  
-    return redirect()->route('index')->with('user_logged_in', $username);
-});
-
 Route::get('/index', function () {
     return view('index');
 })->name('index');
-
-Route::get('/logout', function () {
-    return redirect()->route('login');
-})->name('logout');
-
-Route::get('/form_add_blogs', function () {
-    return view('form_add_blogs'); 
-})->name('form_add_blogs');
-
 
 Route::get('/abouts', function () {
     $name = "Wipaporn Boontee";
@@ -37,15 +18,28 @@ Route::get('/abouts', function () {
     return view('abouts', compact('name', 'date')); 
 })->name('abouts');
 
-Route::get('/blogs', [AdminController::class, 'blog'])->name('blogs');
-Route::get('/blogs/create', [AdminController::class, 'create'])->name('blog.create');
-Route::post('/blogs/store', [AdminController::class, 'store'])->name('blog.store');
-Route::get('/blogs/{id}/edit', [AdminController::class, 'edit'])->name('blog.edit');
-Route::put('/blogs/{id}/update', [AdminController::class, 'update'])->name('blog.update');
-Route::delete('/blogs/{id}/delete', [AdminController::class, 'destroy'])->name('blog.destroy');
-Route::get('/blogs/{id}/view', [AdminController::class, 'view'])->name('blog.view');
+// กลุ่มเส้นทางของนักเขียน (Route Prefix: author) ตามใบงานที่ 13
+Route::prefix('author')->group(function () {
+    Route::get('/about', function () {
+        $name = "Wipaporn Boontee";
+        $date = date("Y-m-d");
+        return view('abouts', compact('name', 'date'));
+    })->name('about');
 
+    Route::get('/blog', [AdminController::class, 'blog'])->name('blog');
+    Route::get('/create', [AdminController::class, 'create'])->name('blog.create');
+    Route::post('/insert', [AdminController::class, 'insert'])->name('blog.insert');
+    Route::get('/edit/{id}', [AdminController::class, 'edit'])->name('blog.edit');
+    Route::post('/update/{id}', [AdminController::class, 'update'])->name('blog.update');
+    Route::match(['get', 'delete'], '/delete/{id}', [AdminController::class, 'delete'])->name('blog.delete');
+    Route::get('/change/{id}', [AdminController::class, 'change'])->name('blog.change');
+    Route::get('/view/{id}', [AdminController::class, 'view'])->name('blog.view');
+});
 
+// คง alias เดิมไว้เพื่อป้องกัน redirect error
+Route::get('/blogs', function() {
+    return redirect('/author/blog');
+})->name('blogs');
 
 Auth::routes();
 
